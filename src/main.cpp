@@ -32,21 +32,31 @@ int main(int, char const**)
     cout << "Waiting for incoming data...\n";
     
     // Containers for data
-    char data[100];
-    std::size_t received;
+    sf::Packet data;
     sf::IpAddress sender;
     unsigned short port;
     
     // Main server loop
     while (true) {
         // Receive data
-        if (socket.receive(data, 100, received, sender, port) != sf::Socket::Done) {
+        if (socket.receive(data, sender, port) != sf::Socket::Done) {
             cout << "Error receiving data from " << sender << ":" << port << "\n";
             continue;
         }
         
-        // Received data
-        cout << "Received " << received << " bytes from " << sender << ":" << port << "(" << data << ")\n";
+        // Process data
+        sf::Uint8 header;
+        data >> header;
+        if (header == PLAYER_HEADER) {
+            // Unpack data
+            float x, y;
+            data >> x >> y;
+            
+            // Process data
+            printf("x: %f, y: %f\n", x, y);
+        } else {
+            printf("Unknown header!\n");
+        }
     }
     return 0;
 }

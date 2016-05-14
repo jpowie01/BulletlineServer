@@ -9,6 +9,9 @@
 #define Definitions_hpp
 
 // Core definitions
-#define SERVER_PORT     51000
+#define SERVER_PORT     54000
+
+// Network headers
+#define PLAYER_HEADER       1
 
 #endif
