@@ -73,6 +73,11 @@ void Player::setY(double y) {
     this->m_y = y;
 }
 
+void Player::setPosition(double x, double y) {
+    this->setX(x);
+    this->setY(y);
+}
+
 void Player::setIPAddress(sf::IpAddress IPAddress) {
     this->m_IPAddress = IPAddress;
 }
