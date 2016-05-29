@@ -39,6 +39,7 @@ public:
     void setHealth(int health);
     void setX(double x);
     void setY(double y);
+    void setPosition(double x, double y);
     void setIPAddress(sf::IpAddress IPAddress);
     void setPort(short port);
     

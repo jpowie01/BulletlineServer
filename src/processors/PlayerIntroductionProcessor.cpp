@@ -7,29 +7,29 @@
 
 #include "PlayerIntroductionProcessor.hpp"
 
-void PlayerIntroductionProcessor::process(sf::UdpSocket& socket, sf::Packet data, sf::IpAddress sender, short port, Player** players, Team** teams, int& amountOfPlayers) {
+void PlayerIntroductionProcessor::process(sf::Packet data, sf::IpAddress sender, short port, CommonData* commonData) {
     // Unpack data
     string name;
     data >> name;
 
     // Prepare player
     Player* player = new Player(name);
-    player->setID(amountOfPlayers);
+    player->setID(commonData->amountOfPlayers);
     player->setIPAddress(sender);
     player->setPort(port);
 
     // Add player
-    players[amountOfPlayers] = player;
-    amountOfPlayers++;
+    commonData->players[commonData->amountOfPlayers] = player;
+    commonData->amountOfPlayers++;
 
     // Add player to smallest team
     int smallestTeam = BLUE_TEAM;
     for (int i = 0; i < TEAMS; i++) {
-        if (teams[i]->getSize() < teams[smallestTeam]->getSize()) {
+        if (commonData->teams[i]->getSize() < commonData->teams[smallestTeam]->getSize()) {
             smallestTeam = i;
         }
     }
-    teams[smallestTeam]->addPlayer(player);
+    commonData->teams[smallestTeam]->addPlayer(player);
     player->setTeamID(smallestTeam);
 
     // Log
@@ -39,27 +39,27 @@ void PlayerIntroductionProcessor::process(sf::UdpSocket& socket, sf::Packet data
     sf::Packet response;
     sf::Uint8 playerID = player->getID();
     sf::Uint8 playerTeamID = player->getTeamID();
-    sf::Uint8 playersSize = amountOfPlayers;
-    sf::Uint8 header = NETWORK_PLAYER_JOINED_GAME_HEADER;
+    sf::Uint8 playersSize = commonData->amountOfPlayers;
+    sf::Uint8 header = NETWORK_JOINED_GAME_HEADER;
     response << header;
     response << playerID;
     response << playerTeamID;
     response << playersSize;
-    for (int i = 0; i < amountOfPlayers; i++) {
+    for (int i = 0; i < commonData->amountOfPlayers; i++) {
         if (player->getID() != i) {
-            playerID = players[i]->getID();
-            playerTeamID = players[i]->getTeamID();
+            playerID = commonData->players[i]->getID();
+            playerTeamID = commonData->players[i]->getTeamID();
             response << playerID;
             response << playerTeamID;
-            response << players[i]->getName();
+            response << commonData->players[i]->getName();
         }
     }
 
     // Send response to player
-    if (socket.send(response, player->getIPAddress(), player->getPort()) != sf::Socket::Done) {
-        cout << "Error sending data to player!\n";
+    if (commonData->socket.send(response, player->getIPAddress(), player->getPort()) != sf::Socket::Done) {
+        cout << "Error sending JOINED_GAME to player " << player->getName() << "!\n";
     } else {
-        cout << "PLAYER_JOINED_GAME send to " << player->getName() << " (ID: " << player->getID() << ")" << "\n";
+        cout << "JOINED_GAME send to " << player->getName() << " (ID: " << player->getID() << ")" << "\n";
     }
 
     // Send response to other players
@@ -71,13 +71,13 @@ void PlayerIntroductionProcessor::process(sf::UdpSocket& socket, sf::Packet data
     information << playerID;
     information << playerTeamID;
     information << player->getName();
-    for (int i = 0; i < amountOfPlayers; i++) {
+    for (int i = 0; i < commonData->amountOfPlayers; i++) {
         if (i != player->getID()) {
             // Send
-            if (socket.send(information, players[i]->getIPAddress(), players[i]->getPort()) != sf::Socket::Done) {
-                cout << "Error sending data to player!\n";
+            if (commonData->socket.send(information, commonData->players[i]->getIPAddress(), commonData->players[i]->getPort()) != sf::Socket::Done) {
+                cout << "Error sending PLAYER_JOINED to player " << commonData->players[i]->getName() << "!\n";
             } else {
-                cout << "PLAYER_JOINED send to " << players[i]->getName() << " (ID: " << players[i]->getID() << ")" << "\n";
+                cout << "PLAYER_JOINED send to " << commonData->players[i]->getName() << " (ID: " << commonData->players[i]->getID() << ")" << "\n";
             }
         }
     }

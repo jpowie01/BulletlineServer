@@ -11,15 +11,15 @@
 #include <iostream>
 #include <SFML/Network.hpp>
 
-#include "../core/Player.hpp"
-#include "../core/Team.hpp"
+#include "../core/Processor.hpp"
+#include "../core/CommonData.hpp"
 #include "../Definitions.hpp"
 
 using namespace std;
 
-class PlayerIntroductionProcessor {
+class PlayerIntroductionProcessor : public Processor {
 public:
-    static void process(sf::UdpSocket& socket, sf::Packet data, sf::IpAddress sender, short port, Player** players, Team** teams, int& amountOfPlayers);
+    void process(sf::Packet data, sf::IpAddress sender, short port, CommonData* commonData);
 };
 
 #endif
