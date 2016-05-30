@@ -32,9 +32,6 @@ void PlayerIntroductionProcessor::process(sf::Packet data, sf::IpAddress sender,
     commonData->teams[smallestTeam]->addPlayer(player);
     player->setTeamID(smallestTeam);
 
-    // Log
-    cout << "New player added to the game (ID: " << player->getID() << " Team ID: " << player->getTeamID() << " Name: " << player->getName() << ")\n";
-
     // Prepare response to player
     sf::Packet response;
     sf::Uint8 playerID = player->getID();

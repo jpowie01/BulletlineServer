@@ -22,6 +22,7 @@ public:
     ~CommonData();
 
     bool gameStarted = false;
+
     int amountOfPlayers = 0;
     Player** players;
     Team** teams;
