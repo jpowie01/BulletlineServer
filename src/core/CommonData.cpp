@@ -29,7 +29,7 @@ CommonData::CommonData() {
     // Log
     sf::IpAddress ipAddress = sf::IpAddress();
     cout << "Local IP Address: " << ipAddress.getLocalAddress().toString() << "\n";
-    //cout << "Public IP Address: " << ipAddress.getPublicAddress().toString() << "\n";
+    cout << "Public IP Address: " << ipAddress.getPublicAddress().toString() << "\n";
     cout << "Port: " << SERVER_PORT << "\n";
     cout << "Waiting for incoming data...\n";
 }

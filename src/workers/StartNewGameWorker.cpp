@@ -61,6 +61,9 @@ void StartNewGameWorker::run() {
                     y = BOTTOM_STARTING_POSITION;
                 }
 
+                // Set player position
+                commonData->players[i]->setPosition((float)x, (float)y);
+
                 // Add data
                 information << id << x << y;
             }

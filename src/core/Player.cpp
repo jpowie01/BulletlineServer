@@ -27,24 +27,6 @@ Player::Player(string name) {
     this->m_speed = PLAYER_SPEED;
 }
 
-/*
-sf::Packet Player::prepareToSend(int header) {
-    sf::Packet packet;
-    packet << header;
-    packet << m_id;
-    packet << m_name;
-    packet << m_x << m_y;
-    packet << m_health << m_speed;
-    return packet;
-}
-
-void Player::setDataFromPacket(sf::Packet packet) {
-    packet >> m_name;
-    packet >> m_x >> m_y;
-    packet >> m_health >> m_speed;
-}
-*/
-
 void Player::setID(int id) {
     this->m_ID = id;
 }
@@ -65,15 +47,15 @@ void Player::setHealth(int health) {
     this->m_health = health;
 }
 
-void Player::setX(double x) {
+void Player::setX(float x) {
     this->m_x = x;
 }
 
-void Player::setY(double y) {
+void Player::setY(float y) {
     this->m_y = y;
 }
 
-void Player::setPosition(double x, double y) {
+void Player::setPosition(float x, float y) {
     this->setX(x);
     this->setY(y);
 }
@@ -92,6 +74,14 @@ int Player::getID() {
 
 int Player::getTeamID() {
     return this->m_teamID;
+}
+
+float Player::getX() {
+    return this->m_x;
+}
+
+float Player::getY() {
+    return this->m_y;
 }
 
 string Player::getName() {

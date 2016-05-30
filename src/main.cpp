@@ -12,7 +12,9 @@
 #include "core/CommonData.hpp"
 #include "helpers/ResourcePath.hpp"
 #include "workers/StartNewGameWorker.hpp"
+#include "workers/UpdatePlayersPositionsWorker.hpp"
 #include "processors/PlayerIntroductionProcessor.hpp"
+#include "processors/PlayerPositionUpdateProcessor.hpp"
 
 using namespace std;
 
@@ -28,12 +30,15 @@ int main(int, char const**)
 
     // Create processors
     PlayerIntroductionProcessor* playerIntroductionProcessor = new PlayerIntroductionProcessor();
+    PlayerPositionUpdateProcessor* playerPositionUpdateProcessor = new PlayerPositionUpdateProcessor();
 
     // Create workers
     StartNewGameWorker* startNewGameWorker = new StartNewGameWorker(commonData);
+    UpdatePlayersPositionsWorker* updatePlayersPositionsWorker = new UpdatePlayersPositionsWorker(commonData);
 
     // Run workers
     startNewGameWorker->runConcurrent();
+    updatePlayersPositionsWorker->runConcurrent();
 
     // Main server loop
     while (true) {
@@ -42,7 +47,7 @@ int main(int, char const**)
             cout << "Error receiving data from " << sender << ":" << port << "\n";
             continue;
         } else {
-            cout << "Received data from " << sender << ":" << port << "\n";
+            //cout << "Received data from " << sender << ":" << port << "\n";
         }
 
         // Process data
@@ -50,12 +55,8 @@ int main(int, char const**)
         data >> header;
         if (header == NETWORK_PLAYER_INTRODUCTION_HEADER) {
             playerIntroductionProcessor->process(data, sender, port, commonData);
-            
-//        } else if (header == PLAYER_UPDATE_HEADER) {
-//            // Update data
-//            int playerID;
-//            data >> playerID;
-//            players[playerID]->setDataFromPacket(data);
+        } else if (header == NETWORK_PLAYER_POSITION_UPDATE_HEADER) {
+            playerPositionUpdateProcessor->process(data, sender, port, commonData);
         } else {
             cout << "Unknown header received (" << header << ")\n";
         }
