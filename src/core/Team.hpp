@@ -21,10 +21,15 @@ private:
     vector<Player*> m_players;
 
 public:
+    // Constructors
     Team();
+    
+    // Core
     bool isFull();
-    int getSize();
     int addPlayer(Player* player);
+    
+    // Getters
+    int getSize();
 };
 
 #endif
