@@ -18,6 +18,7 @@ using namespace std;
 
 class Player : public Circle {
 private:
+    bool m_dead;
     int m_ID;
     int m_teamID;
     string m_name;
@@ -38,13 +39,16 @@ public:
     void setHealth(int health);
     void setIPAddress(sf::IpAddress IPAddress);
     void setPort(short port);
+    void setDead();
     
     // Getters
     int getID();
     int getTeamID();
     string getName();
+    int getHealth();
     sf::IpAddress getIPAddress();
     short getPort();
+    bool isDead();
 };
 
 #endif

@@ -15,6 +15,7 @@ Bullet::Bullet(int id, float x, float y, float directionX, float directionY, flo
     this->m_player_id = id;
     this->m_x = x;
     this->m_y = y;
+    this->m_radius = 2.0f;
     this->m_directionX = directionX;
     this->m_directionY = directionY;
     this->m_speed = speed;
