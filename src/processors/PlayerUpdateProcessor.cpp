@@ -5,9 +5,9 @@
  *
  */
 
-#include "PlayerPositionUpdateProcessor.hpp"
+#include "PlayerUpdateProcessor.hpp"
 
-void PlayerPositionUpdateProcessor::process(sf::Packet data, sf::IpAddress sender, short port, CommonData *commonData) {
+void PlayerUpdateProcessor::process(sf::Packet data, sf::IpAddress sender, short port, CommonData *commonData) {
     // Unpack data
     sf::Uint8 id;
     float x, y;

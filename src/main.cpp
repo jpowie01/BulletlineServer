@@ -12,10 +12,10 @@
 #include "core/CommonData.hpp"
 #include "helpers/ResourcePath.hpp"
 #include "workers/StartNewGameWorker.hpp"
-#include "workers/UpdatePlayersPositionsWorker.hpp"
+#include "workers/UpdatePlayersWorker.hpp"
 #include "workers/GameSimulationWorker.hpp"
 #include "processors/PlayerIntroductionProcessor.hpp"
-#include "processors/PlayerPositionUpdateProcessor.hpp"
+#include "processors/PlayerUpdateProcessor.hpp"
 #include "processors/PlayerShotProcessor.hpp"
 
 using namespace std;
@@ -32,17 +32,17 @@ int main(int, char const**)
 
     // Create processors
     PlayerIntroductionProcessor* playerIntroductionProcessor = new PlayerIntroductionProcessor();
-    PlayerPositionUpdateProcessor* playerPositionUpdateProcessor = new PlayerPositionUpdateProcessor();
+    PlayerUpdateProcessor* playerUpdateProcessor = new PlayerUpdateProcessor();
     PlayerShotProcessor* playerShotProcessor = new PlayerShotProcessor();
 
     // Create workers
     StartNewGameWorker* startNewGameWorker = new StartNewGameWorker(commonData);
-    UpdatePlayersPositionsWorker* updatePlayersPositionsWorker = new UpdatePlayersPositionsWorker(commonData);
+    UpdatePlayersWorker* updatePlayersWorker = new UpdatePlayersWorker(commonData);
     GameSimulationWorker* gameSimulationWorker = new GameSimulationWorker(commonData);
 
     // Run workers
     startNewGameWorker->runConcurrent();
-    updatePlayersPositionsWorker->runConcurrent();
+    updatePlayersWorker->runConcurrent();
     gameSimulationWorker->runConcurrent();
 
     // Main server loop
@@ -60,8 +60,8 @@ int main(int, char const**)
         data >> header;
         if (header == NETWORK_PLAYER_INTRODUCTION_HEADER) {
             playerIntroductionProcessor->process(data, sender, port, commonData);
-        } else if (header == NETWORK_PLAYER_POSITION_UPDATE_HEADER) {
-            playerPositionUpdateProcessor->process(data, sender, port, commonData);
+        } else if (header == NETWORK_PLAYER_UPDATE_HEADER) {
+            playerUpdateProcessor->process(data, sender, port, commonData);
         } else if (header == NETWORK_PLAYER_SHOT_HEADER) {
             playerShotProcessor->process(data, sender, port, commonData);
         } else {
