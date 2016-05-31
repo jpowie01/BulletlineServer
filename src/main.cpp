@@ -13,8 +13,10 @@
 #include "helpers/ResourcePath.hpp"
 #include "workers/StartNewGameWorker.hpp"
 #include "workers/UpdatePlayersPositionsWorker.hpp"
+#include "workers/GameSimulationWorker.hpp"
 #include "processors/PlayerIntroductionProcessor.hpp"
 #include "processors/PlayerPositionUpdateProcessor.hpp"
+#include "processors/PlayerShotProcessor.hpp"
 
 using namespace std;
 
@@ -31,14 +33,17 @@ int main(int, char const**)
     // Create processors
     PlayerIntroductionProcessor* playerIntroductionProcessor = new PlayerIntroductionProcessor();
     PlayerPositionUpdateProcessor* playerPositionUpdateProcessor = new PlayerPositionUpdateProcessor();
+    PlayerShotProcessor* playerShotProcessor = new PlayerShotProcessor();
 
     // Create workers
     StartNewGameWorker* startNewGameWorker = new StartNewGameWorker(commonData);
     UpdatePlayersPositionsWorker* updatePlayersPositionsWorker = new UpdatePlayersPositionsWorker(commonData);
+    GameSimulationWorker* gameSimulationWorker = new GameSimulationWorker(commonData);
 
     // Run workers
     startNewGameWorker->runConcurrent();
     updatePlayersPositionsWorker->runConcurrent();
+    gameSimulationWorker->runConcurrent();
 
     // Main server loop
     while (true) {
@@ -57,6 +62,8 @@ int main(int, char const**)
             playerIntroductionProcessor->process(data, sender, port, commonData);
         } else if (header == NETWORK_PLAYER_POSITION_UPDATE_HEADER) {
             playerPositionUpdateProcessor->process(data, sender, port, commonData);
+        } else if (header == NETWORK_PLAYER_SHOT_HEADER) {
+            playerShotProcessor->process(data, sender, port, commonData);
         } else {
             cout << "Unknown header received (" << header << ")\n";
         }
