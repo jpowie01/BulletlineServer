@@ -34,7 +34,7 @@ void UpdatePlayersPositionsWorker::run() {
             }
 
             // Delay
-            sf::sleep(sf::seconds(0.005f));
+            sf::sleep(sf::seconds(0.01f));
         } else {
             // Delay
             sf::sleep(sf::seconds(0.1f));
