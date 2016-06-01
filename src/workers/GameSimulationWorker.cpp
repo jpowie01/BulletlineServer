@@ -45,7 +45,7 @@ void GameSimulationWorker::run() {
                 // Check if bullet has collision with players
                 for (int j = 0; j < commonData->amountOfPlayers; j++) {
                     if (!commonData->players[j]->isDead() &&
-                        commonData->bullets[i]->getPlayerID() != commonData->players[j]->getID() &&
+                        commonData->players[j]->getID() != commonData->bullets[i]->getPlayerID() &&
                         commonData->players[j]->checkCollision(commonData->bullets[i])) {
 
                         // Change player health
@@ -109,6 +109,10 @@ void GameSimulationWorker::run() {
                         cout << "END_OF_GAME send to " << commonData->players[i]->getName() << " (ID: " << commonData->players[i]->getID() << ")" << "\n";
                     }
                 }
+
+                // Game has ended - wait a little bit to be sure that other threads will end their work
+                sf::sleep(sf::seconds(0.1f));
+                commonData->prepareGameToRestart();
             }
         }
 

@@ -19,7 +19,9 @@ void StartNewGameWorker::run() {
     while (true) {
         // End while game started
         if (commonData->gameStarted == true) {
-            break;
+            // Checking if game has ended
+            sf::sleep(sf::seconds(0.5f));
+            continue;
         }
 
         // Check if there are 2 or 4 players available

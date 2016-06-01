@@ -13,7 +13,7 @@ void UpdatePlayersWorker::run() {
     // Main loop
     while (true) {
         // Send positions only when game has started
-        if (this->commonData->gameStarted) {
+        if (this->commonData->gameStarted && !this->commonData->gameEnded) {
             // Prepare data
             sf::Packet data;
             sf::Uint8 header = NETWORK_ALL_PLAYERS_UPDATE_HEADER;
