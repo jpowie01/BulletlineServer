@@ -21,6 +21,15 @@ bool Team::isFull() {
     return this->m_players.size() == TEAM_SIZE;
 }
 
+bool Team::isDead() {
+    for (int i = 0; i < this->m_players.size(); i++) {
+        if (!this->m_players[i]->isDead()) {
+            return false;
+        }
+    }
+    return true;
+}
+
 int Team::addPlayer(Player* player) {
     int id = (int)this->m_players.size();
     this->m_players.push_back(player);

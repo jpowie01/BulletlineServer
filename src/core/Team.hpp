@@ -26,6 +26,7 @@ public:
     
     // Core
     bool isFull();
+    bool isDead();
     int addPlayer(Player* player);
     
     // Getters
