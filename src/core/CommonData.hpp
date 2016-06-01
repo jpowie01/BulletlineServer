@@ -21,19 +21,24 @@ using namespace std;
 
 class CommonData {
 public:
+    // Constructors
     CommonData();
     ~CommonData();
 
-    bool gameStarted = false;
-
+    // Main data
+    int winningTeam;
     int amountOfPlayers = 0;
     vector<Bullet*> bullets;
     vector<Obstacle*> obstacles;
     Player** players;
     Team** teams;
-
     sf::UdpSocket socket;
-    
+
+    // Game flags
+    bool gameStarted = false;
+    bool gameEnded = false;
+
+    // Mutexes
     sf::Mutex bulletOperationsMutex;
 };
 

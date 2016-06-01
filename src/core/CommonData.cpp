@@ -7,6 +7,10 @@
 
 #include "CommonData.hpp"
 
+//================================================================================
+// Constructors
+//================================================================================
+
 CommonData::CommonData() {
     // Prepare all players
     this->players = new Player*[TEAMS * TEAM_SIZE];

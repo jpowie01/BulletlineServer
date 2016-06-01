@@ -17,7 +17,7 @@ void GameSimulationWorker::run() {
     // Main loop
     while (true) {
         // Check if game is running
-        if (commonData->gameStarted) {
+        if (commonData->gameStarted && !commonData->gameEnded) {
             // Update bullets
             for (int i = 0; i < commonData->bullets.size(); i++) {
                 // Update positions
@@ -79,9 +79,36 @@ void GameSimulationWorker::run() {
                 }
             }
 
-            // Check if all team is dead, send information to all players and end game
-            for (int i = 0; i < commonData->amountOfPlayers; i++) {
-                
+            // Check if all players from one team are dead
+            int winningTeam = RED_TEAM;
+            bool endOfTheGame = false;
+            for (int i = 0; i < TEAMS; i++) {
+                if (commonData->teams[i]->isDead()) {
+                    endOfTheGame = true;
+                    break;
+                } else {
+                    winningTeam = i;
+                }
+            }
+            if (endOfTheGame) {
+                // Save information
+                commonData->winningTeam = winningTeam;
+                commonData->gameEnded = true;
+
+                // Prepare data
+                sf::Packet data;
+                sf::Uint8 header = NETWORK_END_OF_THE_GAME_HEADER;
+                sf::Uint8 id = winningTeam;
+                data << header << id;
+
+                // Send information to all players
+                for (int i = 0; i < commonData->amountOfPlayers; i++) {
+                    if (commonData->socket.send(data, commonData->players[i]->getIPAddress(), commonData->players[i]->getPort()) != sf::Socket::Done) {
+                        cout << "Error sending END_OF_GAME to player " << commonData->players[i]->getName() << "!\n";
+                    } else {
+                        cout << "END_OF_GAME send to " << commonData->players[i]->getName() << " (ID: " << commonData->players[i]->getID() << ")" << "\n";
+                    }
+                }
             }
         }
 
