@@ -30,6 +30,7 @@ public:
     // Constructors
     Player();
     Player(string name);
+    ~Player();
     
     // Setters
     void setID(int id);

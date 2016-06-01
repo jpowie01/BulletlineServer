@@ -83,3 +83,31 @@ CommonData::CommonData() {
     cout << "Port: " << SERVER_PORT << "\n";
     cout << "Waiting for incoming data...\n";
 }
+
+//================================================================================
+// Methods
+//================================================================================
+
+void CommonData::prepareGameToRestart() {
+    // Remove and prepare all players
+    amountOfPlayers = 0;
+    this->players = new Player*[TEAMS * TEAM_SIZE];
+    for (int i = 0; i < TEAMS * TEAM_SIZE; i++) {
+        //delete this->players[i];
+        this->players[i] = new Player();
+    }
+    
+    // Remove and prepare all teams
+    this->teams = new Team*[TEAMS];
+    for (int i = 0; i < TEAMS; i++) {
+        //delete this->teams[i];
+        this->teams[i] = new Team();
+    }
+    
+    // Remove bullets
+    bullets.clear();
+    
+    // Set default flags
+    gameEnded = false;
+    gameStarted = false;
+}

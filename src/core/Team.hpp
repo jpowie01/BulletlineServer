@@ -23,6 +23,7 @@ private:
 public:
     // Constructors
     Team();
+    ~Team();
     
     // Core
     bool isFull();

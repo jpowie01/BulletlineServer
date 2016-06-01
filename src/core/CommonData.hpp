@@ -40,6 +40,9 @@ public:
 
     // Mutexes
     sf::Mutex bulletOperationsMutex;
+    
+    // Methods
+    void prepareGameToRestart();
 };
 
 #endif
