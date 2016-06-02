@@ -57,7 +57,7 @@ void StartNewGameWorker::run() {
                 } else {
                     x = RIGHT_STARTING_POSITION;
                 }
-                if (commonData->players[i]->getID() % 2 == 0) {
+                if (commonData->players[i]->getID() < 2) {
                     y = TOP_STARTING_POSITION;
                 } else {
                     y = BOTTOM_STARTING_POSITION;
