@@ -1,4 +1,4 @@
-# Bulletline
+# Bulletline Server
 This is repository for Bulletline's server.  
 All of the documentation is located in the `docs`, source in `src`.  
 Client can be found in separate [repository](https://github.com/jpowie01/Bulletline).
@@ -12,7 +12,8 @@ Both x86 and x64 architectures are supported.
 - SFML 2.3
 
 ## How to run?
-We fully support Visual Studio 2013+ and XCode 7+ IDEs. Just create simple SFML project with this source code.
+We fully support Visual Studio 2013+ and XCode 7+ IDEs. Just create simple SFML project with this source code.  
+Server runs on port 54000 by default.
 
 ## Authors
 - [Jakub Powierza](https://github.com/jpowie01)
